@@ -35,6 +35,17 @@ namespace
 	float turnStartAngle = 0.0f;
 	float turnEndAngle = 0.0f;
 	PLAYER_DIRECTION turnEndDirection = PLAYER_DOWN;
+	float AdjustAngle(float angle) {
+		if (angle >= 180.0f)
+		{
+			angle -= 360.0f;
+		}
+		else if (angle < -180.0f)
+		{
+			angle += 360.0f;
+		}
+		return angle;
+	}
 }
 
 Player::Player(GameObject* parent)
@@ -104,15 +115,16 @@ void Player::Update()
 		pstate = PLAYER_STATE::PLAYER_TURN;
 		turnFrame = 0.0f;
 		turnStartAngle = P_ANGLE[oldDir];
+		float diff = AdjustAngle(P_ANGLE[pdirection] - P_ANGLE[oldDir]);
 		turnEndDirection = pdirection;
-		turnEndAngle = P_ANGLE[turnEndDirection];
+		turnEndAngle = turnStartAngle + diff;
 	}
 
 	//　↑　状態切り替えの処理
 	//　↓　状態ごとの処理
 
 
-	if (pstate != PLAYER_STATE::PLAYER_TURN)
+	if (pstate == PLAYER_STATE::PLAYER_TURN)
 	{
 		turnFrame += 1.0f;
 		float t = turnFrame / TURN_FRAME;
@@ -127,10 +139,10 @@ void Player::Update()
 		{
 			pdirection = turnEndDirection;
 			transform_.rotate_.y = P_ANGLE[pdirection];
-			pstate = PLAYER_STATE_MAX;
+			pstate = PLAYER_STATE::PLAYER_WALK;
 		}
 	}
-	else if (pstate == PLAYER_STATE::PLAYER_IDLE)
+	else if (pstate != PLAYER_STATE::PLAYER_IDLE)
 	{
 		move = P_MODE[pdirection];
 		angle = P_ANGLE[pdirection];
