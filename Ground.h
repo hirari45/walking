@@ -24,5 +24,7 @@ public:
 private:
 	int hModel_;
 	std::vector<std::vector<int>> mapData_;
+	int mapWidth_;
+	int mapHeight_;
 };
 

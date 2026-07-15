@@ -35,9 +35,9 @@ void Enemy::Draw()
 {
 	//transform_.scale_ = { 0.01,0.01,0.01 };
 
-	transform_.position_ = { 0, 0.0, 0 };
-	Model::SetTransform(hIdleModel_, transform_);
-	Model::Draw(hIdleModel_);
+	transform_.position_ = { 0, 0, 0 };
+	Model::SetTransform(hWalkModel_, transform_);
+	Model::Draw(hWalkModel_);
 }
 
 void Enemy::Release()
