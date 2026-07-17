@@ -167,6 +167,7 @@
     <ClCompile Include="Engine\Texture.cpp" />
     <ClCompile Include="Ground.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Food.cpp" />
     <ClCompile Include="TestScene.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -197,6 +198,7 @@
     <ClInclude Include="Engine\Texture.h" />
     <ClInclude Include="Ground.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Food.h" />
     <ClInclude Include="TestScene.h" />
   </ItemGroup>
   <ItemGroup>

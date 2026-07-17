@@ -51,7 +51,7 @@ namespace
 }
 
 Player::Player(GameObject* parent)
-	:GameObject(parent), hWalkModel_(-1), hIdleModel_(-1){
+	:GameObject(parent, "Player"), hWalkModel_(-1), hIdleModel_(-1) {
 	//swordDirには、初期方向として、ローカルモデルの剣の根っこから
 	//先端までのベクトルとして（0,1,0)を代入しておく
 	//初期位置は原点
@@ -68,6 +68,9 @@ void Player::Initialize()
 	{
 		gmap = ground_->GetMapData();
 	}
+	SphereCollider* collision = new SphereCollider(XMFLOAT3(0.0f, 0.25f, 0.0f), 0.5f);
+	AddCollider(collision);
+
 }
 
 void Player::Update()
