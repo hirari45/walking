@@ -3,7 +3,12 @@
 #include "Ground.h"
 #include "Enemy.h"
 #include "Engine/Camera.h"
+#include "Engine/Text.h"
 
+namespace
+{
+	int myScore = 10;
+}
 //コンストラクタ
 TestScene::TestScene(GameObject * parent)
 	: GameObject(parent, "TestScene")
@@ -22,6 +27,9 @@ void TestScene::Initialize()
 
 	Camera::SetPosition({ 0, 10, -20 });
 	Camera::SetTarget({ 0, 0, 0 });
+
+	pText_ = new Text;
+	pText_->Initialize();
 }
 
 //更新
@@ -29,12 +37,21 @@ void TestScene::Update()
 {
 }
 
+//餌をかぞえて、残り餌数を表示
+//スコアを表示
+//やり方は任せる
+//sprintfでcの文字列を時価で作ってもいいよ
+
 //描画
 void TestScene::Draw()
 {
+	std::string scrText;
+	scrText = "SCORE" + std::to_string(myScore);
+	pText_->Draw(20, 20, scrText.c_str());
 }
 
 //開放
 void TestScene::Release()
 {
+	pText_->Release();
 }

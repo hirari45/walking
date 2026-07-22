@@ -1,6 +1,8 @@
 #include "Food.h"
 #include "Engine/Model.h"
 #include "Engine/SphereCollider.h"
+#include "TestScene.h"
+#include "Ground.h"
 
 Food::Food(GameObject* parent)
 	:GameObject(nullptr, "Food"), type_(FOODTYPE_NORMAL), hModel_(-1), score_(0)
@@ -39,14 +41,14 @@ void Food::SetFoodType(FoodType type)
 	type_ = type;
 	if (type_ == FoodType::FOODTYPE_NORMAL)
 	{
-		SphereCollider* collision = new SphereCollider(XMFLOAT3(0, 0.5, 0), 0.3f);
+		SphereCollider* collision = new SphereCollider(XMFLOAT3(0, 0.25, 0), 0.3f);
 		AddCollider(collision);
 		hModel_ = Model::Load("kyu.fbx");
 		score_ = 1;
 	}
 	else if (type_ == FoodType::FOODTYPE_POWER)
 	{
-		SphereCollider* collision = new SphereCollider(XMFLOAT3(0, 0.5, 0), 0.7f);
+		SphereCollider* collision = new SphereCollider(XMFLOAT3(0, 0.25, 0), 0.5f);
 		AddCollider(collision);
 		hModel_ = Model::Load("kyu2.fbx");
 		score_ = 5;
@@ -55,4 +57,13 @@ void Food::SetFoodType(FoodType type)
 
 void Food::OnCollision(GameObject* pTarget)
 {
+	TestScene* testScene = dynamic_cast<TestScene*>(GetParent()->GetParent());
+	testScene->AddScore(score_);
+	Ground* ground=dynamic_cast<Ground*>(FindObject("Ground"));
+	ground->DecEsaCount(type_);
+	if (pTarget->GetObjectName() == "Player")
+	{
+		pTarget->KillMe();
+	}
+
 }

@@ -68,7 +68,7 @@ void Player::Initialize()
 	{
 		gmap = ground_->GetMapData();
 	}
-	SphereCollider* collision = new SphereCollider(XMFLOAT3(0.0f, 0.25f, 0.0f), 0.5f);
+	SphereCollider* collision = new SphereCollider(XMFLOAT3(0.0f, 0.5f, 0.0f), 0.5f);
 	AddCollider(collision);
 
 }
@@ -192,4 +192,12 @@ void Player::Draw()
 
 void Player::Release()
 {
+}
+
+void Player::OnCollision(GameObject* pTarget)
+{
+	if (pTarget->GetObjectName() == "Food")
+	{
+		pTarget->KillMe();
+	}
 }
