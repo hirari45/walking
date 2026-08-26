@@ -59,16 +59,16 @@ Player::Player(GameObject* parent)
 
 void Player::Initialize()
 {
-	hWalkModel_ = Model::Load("Walking.fbx");
+	hWalkModel_ = Model::Load("walk_Z.fbx");
 	Model::SetAnimFrame(hWalkModel_, 0, 59, 1.0);
-	hIdleModel_ = Model::Load("Idle.fbx");
+	hIdleModel_ = Model::Load("idle_Z.fbx");
 	Model::SetAnimFrame(hIdleModel_, 0, 59, 1.0);
 
 	if (ground_ != nullptr)
 	{
 		gmap = ground_->GetMapData();
 	}
-	SphereCollider* collision = new SphereCollider(XMFLOAT3(0.0f, 0.5f, 0.0f), 0.5f);
+	SphereCollider* collision = new SphereCollider(XMFLOAT3(0.0f, 0.5f, 0.0f), 0.8f);
 	AddCollider(collision);
 
 }

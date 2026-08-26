@@ -20,10 +20,10 @@ void TestScene::Initialize()
 {	
 	//pWp = Instantiate<Weapon>(this);
 	Player* pPlayer = Instantiate <Player>(this);
-	Enemy* pEnemy = Instantiate<Enemy>(this);
+	//Enemy* pEnemy = Instantiate<Enemy>(this);
 	Ground* pGround = Instantiate <Ground>(this);
 	pPlayer->SetGround(pGround);
-	pEnemy->SetGround(pGround);
+	//pEnemy->SetGround(pGround);
 
 	Camera::SetPosition({ 0, 10, -20 });
 	Camera::SetTarget({ 0, 0, 0 });
