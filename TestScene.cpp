@@ -1,9 +1,12 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "TestScene.h"
 #include "Player.h"
 #include "Ground.h"
 #include "Enemy.h"
 #include "Engine/Camera.h"
 #include "Engine/Text.h"
+#include "Engine/Input.h"
+#include "Engine/SceneManager.h"
 
 namespace
 {
@@ -35,6 +38,16 @@ void TestScene::Initialize()
 //更新
 void TestScene::Update()
 {
+	if (Input::IsKey(DIK_SPACE))
+	{
+		SceneManager* pSceneManager =
+			dynamic_cast<SceneManager*>(GetParent());
+
+		if (pSceneManager != nullptr)
+		{
+			pSceneManager->ChangeScene(SCENE_ID_END);
+		}
+	}
 }
 
 //餌をかぞえて、残り餌数を表示
@@ -46,8 +59,10 @@ void TestScene::Update()
 void TestScene::Draw()
 {
 	std::string scrText;
-	scrText = "SCORE" + std::to_string(myScore);
-	pText_->Draw(20, 20, scrText.c_str());
+	char buffer[256];
+	sprintf(buffer, "SCORE:%010d", myScore);
+	scrText = "SCORE" + std::string(buffer);
+	pText_->Draw(500, 50, scrText.c_str());
 }
 
 //開放
