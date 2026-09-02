@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "TestScene.h"
 #include "Player.h"
 #include "Ground.h"
@@ -46,8 +47,10 @@ void TestScene::Update()
 void TestScene::Draw()
 {
 	std::string scrText;
-	scrText = "SCORE" + std::to_string(myScore);
-	pText_->Draw(20, 20, scrText.c_str());
+	char buffer[256];
+	sprintf(buffer, "SCORE:%010d", myScore);
+	scrText = "SCORE" + std::string(buffer);
+	pText_->Draw(500, 50, scrText.c_str());
 }
 
 //ŠJ•ú
