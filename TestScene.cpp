@@ -5,6 +5,8 @@
 #include "Enemy.h"
 #include "Engine/Camera.h"
 #include "Engine/Text.h"
+#include "Engine/Input.h"
+#include "Engine/SceneManager.h"
 
 namespace
 {
@@ -36,6 +38,16 @@ void TestScene::Initialize()
 //更新
 void TestScene::Update()
 {
+	if (Input::IsKey(DIK_SPACE))
+	{
+		SceneManager* pSceneManager =
+			dynamic_cast<SceneManager*>(GetParent());
+
+		if (pSceneManager != nullptr)
+		{
+			pSceneManager->ChangeScene(SCENE_ID_END);
+		}
+	}
 }
 
 //餌をかぞえて、残り餌数を表示

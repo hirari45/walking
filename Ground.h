@@ -21,6 +21,7 @@ public:
 
 	//開放
 	void Release() override;
+	void GetEsaCount(int count) { esaCount_ = count; }
 private:
 	int hModel_;
 	int hEsaModel_;
@@ -29,5 +30,6 @@ private:
 	std::vector<std::vector<int>> objMap_;
 	int mapWidth_;
 	int mapHeight_;
+	int esaCount_;
 };
 
