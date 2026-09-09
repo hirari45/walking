@@ -12,6 +12,7 @@ namespace
 		PLAYER_IDLE,
 		PLAYER_WALK,
 		PLAYER_TURN,
+		PLAYER_DASH,
 		PLAYER_STATE_MAX
 	};
 	PLAYER_STATE pstate = PLAYER_STATE::PLAYER_IDLE;
@@ -63,6 +64,8 @@ void Player::Initialize()
 	Model::SetAnimFrame(hWalkModel_, 0, 59, 1.0);
 	hIdleModel_ = Model::Load("idle_Z.fbx");
 	Model::SetAnimFrame(hIdleModel_, 0, 59, 1.0);
+	hDashModel_ = Model::Load("Run_Z.fbx");
+	Model::SetAnimFrame(hDashModel_, 0, 59, 1.0);
 
 	if (ground_ != nullptr)
 	{
@@ -87,7 +90,9 @@ void Player::Update()
 
 	XMVECTOR pos = XMLoadFloat3(&transform_.position_);
 	XMVECTOR move = XMVectorSet(0, 0, 0, 0);
-	const float SPEED = 0.1f;
+	const float WALK_SPEED = 0.1f;
+	const float DASH_SPEED = 0.25f;
+	float speed = WALK_SPEED;
 	float angle = 0.0f;
 	static float turnFrame = 0.0f;
 	if (pstate != PLAYER_STATE::PLAYER_TURN) {
@@ -116,6 +121,14 @@ void Player::Update()
 		{
 			pdirection = PLAYER_DIRECTION::PLAYER_DOWN;
 			pstate = PLAYER_STATE::PLAYER_WALK;
+		}
+
+		if (Input::IsKey(DIK_LSHIFT) || Input::IsKey(DIK_RSHIFT))
+		{
+			if (pstate == PLAYER_STATE::PLAYER_WALK)
+			{
+				pstate = PLAYER_STATE::PLAYER_DASH;
+			}
 		}
 	}
 
@@ -150,14 +163,22 @@ void Player::Update()
 			pstate = PLAYER_STATE::PLAYER_WALK;
 		}
 	}
-	else if (pstate != PLAYER_STATE::PLAYER_IDLE)
+	else if (pstate == PLAYER_STATE::PLAYER_WALK)
+	{
+		move = P_MODE[pdirection];
+		angle = P_ANGLE[pdirection];
+		transform_.rotate_.y = angle;
+		speed = WALK_SPEED;
+	}
+	else if (pstate == PLAYER_STATE::PLAYER_DASH)
 	{
 		move = P_MODE[pdirection];
 		angle = P_ANGLE[pdirection];
 		transform_.rotate_.y = angle;
 
+		speed = DASH_SPEED;
 	}
-	pos = pos + SPEED * move;
+	pos = pos + speed * move;
 	XMStoreFloat3(&transform_.position_, pos);
 	XMFLOAT3 wpos = transform_.position_;
 	//
@@ -167,7 +188,7 @@ void Player::Update()
 	int mapZ = (int)(10 - (wpos.z)) / 2;
 	if (gmap[mapZ][mapX] == 1)
 	{
-		pos = pos - SPEED * move;
+		pos = pos - speed * move;
 		XMStoreFloat3(&transform_.position_, pos);
 	}
 
@@ -186,6 +207,11 @@ void Player::Draw()
 	{
 		Model::SetTransform(hWalkModel_, transform_);
 		Model::Draw(hWalkModel_);
+	}
+	else if (pstate == PLAYER_STATE::PLAYER_DASH)
+	{
+		Model::SetTransform(hDashModel_, transform_);
+		Model::Draw(hDashModel_);
 	}
 }
 

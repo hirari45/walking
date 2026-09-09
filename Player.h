@@ -28,6 +28,7 @@ public:
 private:
 	int hWalkModel_;
 	int hIdleModel_;
+	int hDashModel_;
 	Ground* ground_;
 
 };
